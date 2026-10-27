@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MSE Project Catalogue · DTU Construct</title>
+  <meta name="description" content="Bachelor and master projects offered by the Section of Materials and Surface Engineering, DTU Construct, 2026–2027.">
+  <meta name="theme-color" content="#05070D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=ee948caa">
+</head>
+<body class="is-loading">
+  <canvas id="grain" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#list-view">Skip to the project list</a>
+
+  <header class="top">
+    <a class="brand" href="#" aria-label="MSE project catalogue, home">
+      <span class="brand-logo"><img src="images/dtu-logo.png" alt="DTU"></span>
+      <span class="brand-text">
+        <strong>Materials and Surface Engineering</strong>
+        <span>DTU Construct · Project catalogue 2026–2027</span>
+      </span>
+    </a>
+    <div class="top-actions">
+      <a class="info-btn download-btn" href="downloads/MSE-Project-Catalogue-2026-2027.pdf" download aria-label="Download the catalogue as a PDF (1.9 MB)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+        <span>Catalogue PDF</span>
+      </a>
+      <button type="button" class="info-btn" id="welcome-open" aria-haspopup="dialog">Before you choose</button>
+      <div class="view-switch" role="group" aria-label="View">
+        <button type="button" data-view="space" aria-pressed="true">Explore</button>
+        <button type="button" data-view="list" aria-pressed="false">List</button>
+      </div>
+    </div>
+  </header>
+
+  <dialog class="welcome" id="welcome" aria-labelledby="welcome-title">
+    <svg class="welcome-mark" viewBox="0 0 120 64" aria-hidden="true">
+      <circle cx="34" cy="32" r="26"/><circle cx="60" cy="32" r="26"/><circle cx="86" cy="32" r="26"/>
+    </svg>
+    <h2 id="welcome-title">Before you choose a project</h2>
+    <section class="welcome-part">
+      <h3>Most projects can be done as group work</h3>
+      <p>Most of the projects in this catalogue can be carried out by a group of students, not only individually. If you would like to work together with other students, discuss the possibilities with the supervisors of the project before you choose it. You can contact them from each project's page.</p>
+    </section>
+    <section class="welcome-part">
+      <h3>Not ready for a project yet?</h3>
+      <p>Take a project course first, to learn the prerequisite knowledge and techniques you need. Contact <a href="mailto:kapa@dtu.dk?subject=Project%20course%20in%20Materials%20and%20Surface%20Engineering">Karen Pantleon (kapa@dtu.dk)</a>.</p>
+    </section>
+    <form method="dialog">
+      <button class="cta" value="ok" autofocus>Browse the projects</button>
+    </form>
+  </dialog>
+
+  <main>
+    <section class="intro" aria-labelledby="intro-title">
+      <h1 id="intro-title">Find your thesis project</h1>
+      <p>Bachelor and master projects offered by the Section of Materials and Surface Engineering. Drag, scroll or use the arrow keys to browse, and select a project to read it in full.</p>
+      <p class="intro-download"><a href="downloads/MSE-Project-Catalogue-2026-2027.pdf" download>Download the full catalogue</a> (PDF, 23 pages, 1.9 MB)</p>
+    </section>
+
+    <form class="filters" role="search" aria-label="Filter projects" onsubmit="return false">
+      <div class="seg" role="group" aria-label="Project level">
+        <button type="button" data-level="all" aria-pressed="true">All levels</button>
+      </div>
+      <label class="field">
+        <span class="sr">Supervisor</span>
+        <select id="f-supervisor"><option value="">All supervisors</option></select>
+      </label>
+      <label class="field field-search">
+        <span class="sr">Search projects</span>
+        <input id="f-search" type="search" placeholder="Search: tungsten, simulation, fatigue…" autocomplete="off">
+      </label>
+    </form>
+
+    <section id="space-view" class="space" aria-label="Projects, 3D gallery" aria-roledescription="carousel">
+      <div class="stage" id="stage"></div>
+
+      <div class="focus" aria-live="polite">
+        <p class="focus-level" id="focus-level"></p>
+        <h2 class="focus-title" id="focus-title"></h2>
+        <p class="focus-people" id="focus-people"></p>
+        <button type="button" class="open-btn" id="focus-open">Read the project</button>
+      </div>
+
+      <div class="nav">
+        <button type="button" class="arrow" id="prev" aria-label="Previous project">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <p class="count"><span id="count-now">01</span><span class="count-sep">/</span><span id="count-all">00</span></p>
+        <button type="button" class="arrow" id="next" aria-label="Next project">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <section id="list-view" class="list" aria-label="Projects, list" hidden>
+      <ul id="list"></ul>
+    </section>
+
+    <p class="empty" id="empty" hidden>No projects match these filters. <button type="button" id="reset">Show all projects</button></p>
+  </main>
+
+  <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" hidden>
+    <div class="detail-scroll" id="detail-scroll">
+      <div class="detail-bar">
+        <button type="button" class="back" id="d-close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          All projects
+        </button>
+        <div class="detail-step">
+          <button type="button" class="arrow" id="d-prev" aria-label="Previous project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" class="arrow" id="d-next" aria-label="Next project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+      <article class="detail-body" id="detail-body"></article>
+    </div>
+  </div>
+
+  <script src="data/projects.js?v=9c431b22"></script>
+  <script src="js/grain.js?v=35f174ae"></script>
+  <script src="js/app.js?v=709d5e08"></script>
+</body>
+</html>

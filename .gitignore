@@ -1,0 +1,10 @@
+~$*.pptx
+__pycache__/
+.DS_Store
+Thumbs.db
+
+# The merged PowerPoint stays on your PC (58 MB); the website uses the PDF in site/downloads/.
+combined/
+
+# Local preview settings for Claude
+.claude/
