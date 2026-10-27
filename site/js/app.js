@@ -92,6 +92,11 @@
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
   };
+  // Remembered only for the current visit (cleared when the tab or browser is closed).
+  const visit = {
+    get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } },
+  };
 
   // ---------- filters ----------
   const supervisors = [...new Set(ALL.flatMap((p) => p.supervisors.map((s) => s.name)))].sort((a, b) =>
@@ -497,7 +502,7 @@
     if (typeof welcome.showModal === "function") welcome.showModal();
     else welcome.setAttribute("open", "");
   }
-  welcome.addEventListener("close", () => store.set("mse-welcome-seen", "1"));
+  welcome.addEventListener("close", () => visit.set("mse-welcome-seen", "1"));
   // Clicking the dimmed area around the note closes it too.
   welcome.addEventListener("click", (e) => { if (e.target === welcome) welcome.close(); });
   $("welcome-open").addEventListener("click", openWelcome);
@@ -512,6 +517,6 @@
   route();
   requestAnimationFrame(tick);
   setTimeout(() => el.body.classList.remove("is-loading"), reduceMotion ? 0 : 900);
-  // First visit: show the note once the opening animation has played.
-  if (!store.get("mse-welcome-seen")) setTimeout(openWelcome, reduceMotion ? 0 : 1800);
+  // Each visit: show the note once the opening animation has played.
+  if (!visit.get("mse-welcome-seen")) setTimeout(openWelcome, reduceMotion ? 0 : 1800);
 })();
