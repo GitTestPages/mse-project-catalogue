@@ -242,6 +242,7 @@
   let wheelAcc = 0, wheelLock = 0;
   el.space.addEventListener("wheel", (e) => {
     if (state.view !== "space") return;
+    if (window.innerWidth <= 760) return;      // narrow screens scroll the page; swipe or arrows change project
     e.preventDefault();
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
     wheelAcc += delta;
