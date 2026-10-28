@@ -80,6 +80,9 @@ The combined file is kept outside `catalogue/` so the website doesn't list every
 project twice. Pages in `front-pages/` (`01-cover.pptx`, `02-introduction.pptx`)
 are placed before the projects, in file-name order.
 
+The projects follow the order in `catalogue/order.txt`, both in the combined file
+and on the website. Files not listed there come last, alphabetically.
+
 The website offers the combined catalogue as a PDF download:
 `site/downloads/MSE-Project-Catalogue-2026-2027.pdf`. After changing the combined
 file, save it again as PDF to that path (in PowerPoint: File > Export > PDF) and

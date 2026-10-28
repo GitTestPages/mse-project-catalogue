@@ -14,6 +14,12 @@ $outPath = Join-Path $root $Out
 New-Item -ItemType Directory -Force (Split-Path -Parent $outPath) | Out-Null
 
 $files = @(Get-ChildItem $srcDir -Filter *.pptx | Where-Object { $_.Name -notlike '~$*' } | Sort-Object Name)
+# catalogue/order.txt sets the order; files not listed there follow alphabetically.
+$orderFile = Join-Path $srcDir "order.txt"
+if (Test-Path $orderFile) {
+    $order = @(Get-Content $orderFile -Encoding UTF8 | ForEach-Object { $_.Trim() } | Where-Object { $_ -and -not $_.StartsWith("#") })
+    $files = @($files | Sort-Object @{ Expression = { $i = [Array]::IndexOf(@($order | ForEach-Object { $_.ToLower() }), $_.Name.ToLower()); if ($i -lt 0) { $order.Count } else { $i } } }, Name)
+}
 if (-not $files) { throw "No .pptx files in $srcDir" }
 # Front pages (cover, introduction) come first, in file-name order: 01-cover.pptx, 02-...
 $front = Join-Path $root "front-pages"
@@ -52,6 +58,7 @@ try {
     $report
     "Total: $total slides -> $outPath"
 } finally {
-    $ppt.Quit()
+    # Leave PowerPoint running if the user has other presentations open.
+    if ($ppt.Presentations.Count -eq 0) { $ppt.Quit() }
     [System.Runtime.InteropServices.Marshal]::ReleaseComObject($ppt) | Out-Null
 }

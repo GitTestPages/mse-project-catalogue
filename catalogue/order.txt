@@ -1,0 +1,9 @@
+# Order of the project files in the combined catalogue and on the website.
+# One file name per line. Files not listed here come last, in alphabetical order.
+DTU_CONSTRUCT-MSE-Project_Catalogue-2026-2027 - KP.pptx
+Project_Description_2627-Masoud.pptx
+DTU_CONSTRUCT-MSE-Project_Catalogue-2026-2027 (002)_msje.pptx
+DTU_CONSTRUCT-MSE-Project_Catalogue-2026-2027 WP.pptx
+DTU_CONSTRUCT-MSE-Project_Catalogue-2026-2027-Mehdi.pptx
+Project Catalogue MAJS.pptx
+Project_Description_2627-Felix.pptx

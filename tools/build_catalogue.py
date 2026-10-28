@@ -575,12 +575,23 @@ def stamp_assets():
         index.write_text(new, "utf8")
 
 
+def ordered(paths):
+    """Sort by catalogue/order.txt; files not listed there follow alphabetically."""
+    order_file = ROOT / "catalogue" / "order.txt"
+    names = []
+    if order_file.exists():
+        names = [l.strip() for l in order_file.read_text("utf8").splitlines()
+                 if l.strip() and not l.startswith("#")]
+    rank = {n.lower(): i for i, n in enumerate(names)}
+    return sorted(paths, key=lambda p: (rank.get(p.name.lower(), len(rank)), p.name))
+
+
 def main(paths):
     fix = Fix(load_json("corrections.json", {}))
     badges = load_json("badges.json", {})
     logos = set(load_json("logos.json", []))
     if not paths:
-        paths = sorted((ROOT / "catalogue").glob("*.pptx"))
+        paths = ordered((ROOT / "catalogue").glob("*.pptx"))
     paths = [Path(p) for p in paths if not Path(p).name.startswith("~$")]
     if not paths:
         sys.exit("No .pptx files found. Put the catalogue files in the catalogue/ folder.")
